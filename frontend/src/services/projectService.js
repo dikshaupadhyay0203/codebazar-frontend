@@ -31,6 +31,11 @@ export async function getMyPurchases() {
     return data.data;
 }
 
+export async function getPurchasedProjectAssets(projectId) {
+    const { data } = await api.get(`/projects/${projectId}/assets`);
+    return data.data;
+}
+
 export async function getPendingProjects() {
     const { data } = await api.get('/projects/admin/pending');
     return data.data;

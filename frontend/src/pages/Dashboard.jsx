@@ -38,8 +38,6 @@ function Dashboard() {
     }, [user]);
 
     const totalProjects = projects.length;
-    const completedTasks = Math.round(totalProjects * 0.62);
-    const pendingTasks = Math.max(totalProjects - completedTasks, 0);
     const activeCreators = useMemo(
         () => new Set(projects.map((project) => project.uploadedBy?._id).filter(Boolean)).size,
         [projects]
@@ -51,11 +49,9 @@ function Dashboard() {
                 <h1 className="text-3xl font-extrabold">Dashboard</h1>
                 <p className="mt-1 text-slate-400">Welcome back, {user?.name}. Here is your marketplace overview.</p>
 
-                <div className="mt-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+                <div className="mt-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-2">
                     {[
                         { title: 'Total Projects', value: totalProjects },
-                        { title: 'Completed Tasks', value: completedTasks },
-                        { title: 'Pending Tasks', value: pendingTasks },
                         { title: 'Active Creators', value: activeCreators }
                     ].map((card) => (
                         <motion.div

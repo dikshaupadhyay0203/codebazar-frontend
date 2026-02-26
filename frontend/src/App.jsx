@@ -45,8 +45,8 @@ function App() {
                         <Route path="/buy/:projectId" element={<BuyProject />} />
                         <Route path="/profile" element={<ProfilePage />} />
                         <Route path="/my-purchases" element={<MyPurchases />} />
-                        <Route path="/my-uploads" element={<ProtectedRoute roles={['creator', 'admin']}><MyUploads /></ProtectedRoute>} />
-                        <Route path="/upload" element={<ProtectedRoute roles={['creator', 'admin']}><UploadProject /></ProtectedRoute>} />
+                        <Route path="/my-uploads" element={<MyUploads />} />
+                        <Route path="/upload" element={<UploadProject />} />
                         <Route path="/admin" element={<ProtectedRoute roles={['admin']}><AdminPanel /></ProtectedRoute>} />
                     </Route>
 

@@ -1,6 +1,5 @@
 import { useMemo, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import toast from 'react-hot-toast';
 import { askAIAgent } from '../services/aiService';
 import { useAuth } from '../hooks/useAuth';
 
@@ -32,8 +31,11 @@ function FloatingChatbot() {
         try {
             const result = await askAIAgent(nextMessages);
             setMessages((prev) => [...prev, { role: 'assistant', content: result.reply }]);
-        } catch (error) {
-            toast.error(error.response?.data?.message || 'Unable to fetch response');
+        } catch {
+            setMessages((prev) => [
+                ...prev,
+                { role: 'assistant', content: 'AI is temporarily unavailable. Please try again in a moment.' }
+            ]);
         } finally {
             setLoading(false);
         }

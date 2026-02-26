@@ -8,8 +8,8 @@ function Sidebar({ mobileOpen = false, onClose = () => { } }) {
     const links = [
         { to: '/dashboard', label: 'Dashboard', roles: ['user', 'creator', 'admin'] },
         { to: '/my-purchases', label: 'My Purchases', roles: ['user', 'creator', 'admin'] },
-        { to: '/my-uploads', label: 'My Uploads', roles: ['creator', 'admin'] },
-        { to: '/upload', label: 'Upload Project', roles: ['creator', 'admin'] },
+        { to: '/my-uploads', label: 'My Uploads', roles: ['user', 'creator', 'admin'] },
+        { to: '/upload', label: 'Upload Project', roles: ['user', 'creator', 'admin'] },
         { to: '/admin', label: 'Admin Panel', roles: ['admin'] },
         { to: '/profile', label: 'Profile', roles: ['user', 'creator', 'admin'] }
     ];

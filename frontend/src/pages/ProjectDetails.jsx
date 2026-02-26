@@ -5,6 +5,32 @@ import { addReview, getProjectDetails } from '../services/projectService';
 import { useAuth } from '../hooks/useAuth';
 import PageTransition from '../components/PageTransition';
 
+const apiOrigin = (import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:5000/api').replace(/\/api\/?$/, '');
+
+const encodePathname = (pathname) =>
+    pathname
+        .split('/')
+        .map((segment, index) => {
+            if (index === 0) return segment;
+            try {
+                return encodeURIComponent(decodeURIComponent(segment));
+            } catch {
+                return encodeURIComponent(segment);
+            }
+        })
+        .join('/');
+
+const resolveImageUrl = (rawUrl) => {
+    if (!rawUrl) return '';
+
+    try {
+        const parsed = new URL(rawUrl);
+        return `${apiOrigin}${encodePathname(parsed.pathname)}${parsed.search || ''}`;
+    } catch {
+        return rawUrl;
+    }
+};
+
 function ProjectDetails() {
     const { projectId } = useParams();
     const { isAuthenticated } = useAuth();
@@ -45,11 +71,27 @@ function ProjectDetails() {
                     <h2 className="text-2xl font-extrabold">{data.project.title}</h2>
                     <p className="mt-3 text-slate-300">{data.project.description}</p>
 
+                    {data.project.imageUrl ? (
+                        <img src={resolveImageUrl(data.project.imageUrl)} alt={data.project.title} className="mt-4 h-56 w-full rounded-xl object-cover" />
+                    ) : null}
+
+                    {data.project.projectImages?.length ? (
+                        <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                            {data.project.projectImages.map((imageUrl) => (
+                                <img key={imageUrl} src={resolveImageUrl(imageUrl)} alt="Project preview" className="h-32 w-full rounded-xl object-cover" />
+                            ))}
+                        </div>
+                    ) : null}
+
                     <div className="mt-5 grid gap-2 text-sm text-slate-300 md:grid-cols-2">
                         <p><span className="text-slate-400">Category:</span> {data.project.category}</p>
                         <p><span className="text-slate-400">Tech:</span> {data.project.techStack?.join(', ')}</p>
                         <p><span className="text-slate-400">Price:</span> <span className="font-semibold text-secondary">₹{data.project.price}</span></p>
                     </div>
+
+                    <p className="mt-3 rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-slate-300">
+                        🔒 Project link and downloadable files are available only after payment.
+                    </p>
 
                     <Link className="mt-5 inline-block rounded-xl bg-primary px-4 py-2 font-semibold text-white transition hover:bg-indigo-500" to={`/buy/${projectId}`}>
                         Buy Project
