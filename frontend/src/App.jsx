@@ -8,6 +8,7 @@ import HomePage from './pages/HomePage';
 import AboutPage from './pages/AboutPage';
 import ContactPage from './pages/ContactPage';
 import Register from './pages/Register';
+import OtpVerification from './pages/OtpVerification';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import UploadProject from './pages/UploadProject';
@@ -29,6 +30,7 @@ function App() {
                     <Route path="/about" element={<AboutPage />} />
                     <Route path="/contact" element={<ContactPage />} />
                     <Route path="/register" element={<Register />} />
+                    <Route path="/verify-otp" element={<OtpVerification />} />
                     <Route path="/login" element={<Login />} />
 
                     <Route

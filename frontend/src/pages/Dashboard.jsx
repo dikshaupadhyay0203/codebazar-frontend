@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import toast from 'react-hot-toast';
-import { BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 import { motion } from 'framer-motion';
 import ProjectCard from '../components/ProjectCard';
 import SkeletonCard from '../components/SkeletonCard';
@@ -46,26 +45,6 @@ function Dashboard() {
         [projects]
     );
 
-    const chartSeries = useMemo(
-        () => [
-            { name: 'Projects', value: totalProjects },
-            { name: 'Completed', value: completedTasks },
-            { name: 'Pending', value: pendingTasks },
-            { name: 'Active Creators', value: activeCreators }
-        ],
-        [totalProjects, completedTasks, pendingTasks, activeCreators]
-    );
-
-    const categorySeries = useMemo(() => {
-        const categoryMap = projects.reduce((acc, project) => {
-            acc[project.category] = (acc[project.category] || 0) + 1;
-            return acc;
-        }, {});
-        return Object.entries(categoryMap).map(([name, value]) => ({ name, value }));
-    }, [projects]);
-
-    const pieColors = ['#6366F1', '#22C55E', '#3B82F6', '#F59E0B', '#EF4444', '#14B8A6'];
-
     return (
         <PageTransition>
             <div>
@@ -97,39 +76,6 @@ function Dashboard() {
                         <div className="rounded-2xl border border-slate-700 bg-card p-4"><p className="text-sm text-slate-400">Revenue</p><p className="text-2xl font-bold">₹{stats.totalRevenue}</p></div>
                     </div>
                 ) : null}
-
-                <div className="mt-6 grid gap-4 xl:grid-cols-2">
-                    <div className="rounded-2xl border border-slate-700 bg-card p-4">
-                        <h3 className="mb-3 text-lg font-semibold">Performance Overview</h3>
-                        <div className="h-72">
-                            <ResponsiveContainer width="100%" height="100%">
-                                <BarChart data={chartSeries}>
-                                    <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
-                                    <XAxis dataKey="name" stroke="#94A3B8" />
-                                    <YAxis stroke="#94A3B8" />
-                                    <Tooltip contentStyle={{ background: '#0F172A', border: '1px solid #334155' }} />
-                                    <Bar dataKey="value" fill="#6366F1" radius={[6, 6, 0, 0]} isAnimationActive={false} />
-                                </BarChart>
-                            </ResponsiveContainer>
-                        </div>
-                    </div>
-
-                    <div className="rounded-2xl border border-slate-700 bg-card p-4">
-                        <h3 className="mb-3 text-lg font-semibold">Projects by Category</h3>
-                        <div className="h-72">
-                            <ResponsiveContainer width="100%" height="100%">
-                                <PieChart>
-                                    <Pie data={categorySeries} dataKey="value" nameKey="name" outerRadius={108} label isAnimationActive={false}>
-                                        {categorySeries.map((entry, idx) => (
-                                            <Cell key={entry.name} fill={pieColors[idx % pieColors.length]} />
-                                        ))}
-                                    </Pie>
-                                    <Tooltip contentStyle={{ background: '#0F172A', border: '1px solid #334155' }} />
-                                </PieChart>
-                            </ResponsiveContainer>
-                        </div>
-                    </div>
-                </div>
 
                 <div className="mt-6 rounded-2xl border border-slate-700 bg-card p-4">
                     <h3 className="mb-3 text-lg font-semibold">Search & Filter</h3>

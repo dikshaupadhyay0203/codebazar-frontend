@@ -42,8 +42,8 @@ function Register() {
 
         try {
             await register(form);
-            toast.success('Registration successful');
-            navigate('/dashboard');
+            toast.success('OTP sent to your email');
+            navigate('/verify-otp', { state: { email: form.email } });
         } catch (apiError) {
             setError(apiError.response?.data?.message || 'Registration failed');
         }

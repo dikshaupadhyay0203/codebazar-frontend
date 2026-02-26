@@ -46,8 +46,6 @@ export function AuthProvider({ children }) {
         setLoading(true);
         try {
             const response = await registerUser(payload);
-            setToken(response.accessToken);
-            setUser(response.user);
             return response;
         } finally {
             setLoading(false);
