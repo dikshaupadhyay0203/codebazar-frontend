@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import toast from 'react-hot-toast';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 import { motion } from 'framer-motion';
@@ -14,22 +14,23 @@ function Dashboard() {
     const [stats, setStats] = useState(null);
     const [loading, setLoading] = useState(true);
     const [filters, setFilters] = useState({ q: '', techStack: '', category: '', minPrice: '', maxPrice: '' });
+    const [appliedFilters, setAppliedFilters] = useState({ q: '', techStack: '', category: '', minPrice: '', maxPrice: '' });
 
-    const fetchProjects = async () => {
+    const fetchProjects = useCallback(async () => {
         setLoading(true);
         try {
-            const data = await getProjects({ ...filters, page: 1, limit: 12 });
+            const data = await getProjects({ ...appliedFilters, page: 1, limit: 12 });
             setProjects(data.projects);
         } catch {
             toast.error('Failed to load projects');
         } finally {
             setLoading(false);
         }
-    };
+    }, [appliedFilters]);
 
     useEffect(() => {
         fetchProjects();
-    }, []);
+    }, [fetchProjects]);
 
     useEffect(() => {
         if (user?.role === 'creator' || user?.role === 'admin') {
@@ -40,21 +41,29 @@ function Dashboard() {
     const totalProjects = projects.length;
     const completedTasks = Math.round(totalProjects * 0.62);
     const pendingTasks = Math.max(totalProjects - completedTasks, 0);
-    const activeUsers = new Set(projects.map((project) => project.uploadedBy?._id).filter(Boolean)).size + 12;
+    const activeCreators = useMemo(
+        () => new Set(projects.map((project) => project.uploadedBy?._id).filter(Boolean)).size,
+        [projects]
+    );
 
-    const chartSeries = [
-        { name: 'Projects', value: totalProjects },
-        { name: 'Completed', value: completedTasks },
-        { name: 'Pending', value: pendingTasks },
-        { name: 'Active Users', value: activeUsers }
-    ];
+    const chartSeries = useMemo(
+        () => [
+            { name: 'Projects', value: totalProjects },
+            { name: 'Completed', value: completedTasks },
+            { name: 'Pending', value: pendingTasks },
+            { name: 'Active Creators', value: activeCreators }
+        ],
+        [totalProjects, completedTasks, pendingTasks, activeCreators]
+    );
 
-    const categoryMap = projects.reduce((acc, project) => {
-        acc[project.category] = (acc[project.category] || 0) + 1;
-        return acc;
-    }, {});
+    const categorySeries = useMemo(() => {
+        const categoryMap = projects.reduce((acc, project) => {
+            acc[project.category] = (acc[project.category] || 0) + 1;
+            return acc;
+        }, {});
+        return Object.entries(categoryMap).map(([name, value]) => ({ name, value }));
+    }, [projects]);
 
-    const categorySeries = Object.entries(categoryMap).map(([name, value]) => ({ name, value }));
     const pieColors = ['#6366F1', '#22C55E', '#3B82F6', '#F59E0B', '#EF4444', '#14B8A6'];
 
     return (
@@ -68,7 +77,7 @@ function Dashboard() {
                         { title: 'Total Projects', value: totalProjects },
                         { title: 'Completed Tasks', value: completedTasks },
                         { title: 'Pending Tasks', value: pendingTasks },
-                        { title: 'Active Users', value: activeUsers }
+                        { title: 'Active Creators', value: activeCreators }
                     ].map((card) => (
                         <motion.div
                             key={card.title}
@@ -99,7 +108,7 @@ function Dashboard() {
                                     <XAxis dataKey="name" stroke="#94A3B8" />
                                     <YAxis stroke="#94A3B8" />
                                     <Tooltip contentStyle={{ background: '#0F172A', border: '1px solid #334155' }} />
-                                    <Bar dataKey="value" fill="#6366F1" radius={[6, 6, 0, 0]} />
+                                    <Bar dataKey="value" fill="#6366F1" radius={[6, 6, 0, 0]} isAnimationActive={false} />
                                 </BarChart>
                             </ResponsiveContainer>
                         </div>
@@ -110,7 +119,7 @@ function Dashboard() {
                         <div className="h-72">
                             <ResponsiveContainer width="100%" height="100%">
                                 <PieChart>
-                                    <Pie data={categorySeries} dataKey="value" nameKey="name" outerRadius={108} label>
+                                    <Pie data={categorySeries} dataKey="value" nameKey="name" outerRadius={108} label isAnimationActive={false}>
                                         {categorySeries.map((entry, idx) => (
                                             <Cell key={entry.name} fill={pieColors[idx % pieColors.length]} />
                                         ))}
@@ -130,7 +139,7 @@ function Dashboard() {
                         <input className="input" placeholder="Category" value={filters.category} onChange={(e) => setFilters({ ...filters, category: e.target.value })} />
                         <input className="input" type="number" placeholder="Min Price" value={filters.minPrice} onChange={(e) => setFilters({ ...filters, minPrice: e.target.value })} />
                         <input className="input" type="number" placeholder="Max Price" value={filters.maxPrice} onChange={(e) => setFilters({ ...filters, maxPrice: e.target.value })} />
-                        <button className="btn-accent" onClick={fetchProjects}>Apply Filters</button>
+                        <button className="btn-accent" onClick={() => setAppliedFilters(filters)}>Apply Filters</button>
                     </div>
                 </div>
 
