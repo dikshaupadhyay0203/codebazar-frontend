@@ -41,10 +41,10 @@ function MyUploads() {
         <PageTransition>
             <div>
                 <h2 className="text-2xl font-extrabold">My Uploads</h2>
-                {uploads.length === 0 ? <p className="mt-3 text-slate-400">No uploads yet.</p> : null}
+                {uploads.length === 0 ? <p className="mt-3 text-textmuted">No uploads yet.</p> : null}
                 <div className="mt-4 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
                     {uploads.map((project) => (
-                        <div key={project._id} className="rounded-2xl border border-slate-700 bg-card p-4">
+                        <div key={project._id} className="card card-hover p-4">
                             {resolveImageUrl(project.imageUrl) && !failedImageIds[project._id] ? (
                                 <img
                                     src={resolveImageUrl(project.imageUrl)}
@@ -54,7 +54,7 @@ function MyUploads() {
                                 />
                             ) : null}
                             <h3 className="text-lg font-semibold">{project.title}</h3>
-                            <p className="mt-2 text-sm text-slate-300">Status: <span className={`font-semibold ${project.status === 'approved' ? 'text-secondary' : 'text-amber-400'}`}>{project.status}</span></p>
+                            <p className="mt-2 text-sm text-slate-300">Status: <span className={`font-semibold ${project.status === 'approved' ? 'text-primary' : 'text-amber-400'}`}>{project.status}</span></p>
                             <p className="mt-1 text-sm text-slate-300">Price: ₹{project.price}</p>
                         </div>
                     ))}

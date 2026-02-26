@@ -17,7 +17,7 @@ function Sidebar({ mobileOpen = false, onClose = () => { } }) {
     const navContent = (
         <>
             <Link to="/dashboard" className="text-xl font-extrabold text-primary">CodeBazaar</Link>
-            <p className="mt-1 text-sm text-slate-300">Modern Marketplace Console</p>
+            <p className="mt-1 text-sm text-textmuted">Modern Marketplace Console</p>
 
             <nav className="mt-8 space-y-2">
                 {links
@@ -29,24 +29,25 @@ function Sidebar({ mobileOpen = false, onClose = () => { } }) {
                                 key={link.to}
                                 to={link.to}
                                 onClick={onClose}
-                                className={`block rounded-xl px-4 py-3 transition ${active ? 'bg-primary text-white' : 'bg-slate-800 text-slate-200 hover:bg-slate-700'
+                                className={`relative block rounded-xl px-4 py-3 transition-all duration-300 ${active ? 'bg-purple-500/20 text-white' : 'bg-transparent text-slate-200 hover:scale-[1.02] hover:bg-purple-500/10'
                                     }`}
                             >
+                                <span className={`absolute left-0 top-2 h-[calc(100%-16px)] w-1 rounded-r-full bg-primary transition-opacity duration-300 ${active ? 'opacity-100' : 'opacity-0'}`} />
                                 {link.label}
                             </Link>
                         );
                     })}
             </nav>
 
-            <div className="mt-8 rounded-2xl border border-slate-700 bg-card p-4">
-                <p className="text-xs uppercase tracking-wide text-slate-400">Signed in</p>
+            <div className="card mt-8">
+                <p className="text-xs uppercase tracking-wide text-textmuted">Signed in</p>
                 <p className="mt-1 font-semibold">{user?.name}</p>
-                <p className="text-sm text-slate-400">{user?.email}</p>
+                <p className="text-sm text-textmuted">{user?.email}</p>
             </div>
 
             <button
                 type="button"
-                className="mt-4 w-full rounded-xl bg-slate-700 px-4 py-2 font-semibold text-slate-100 transition hover:bg-slate-600"
+                className="btn-muted mt-4 w-full"
                 onClick={() => {
                     onClose();
                     logout();
@@ -59,7 +60,7 @@ function Sidebar({ mobileOpen = false, onClose = () => { } }) {
 
     return (
         <>
-            <aside className="sticky top-0 hidden min-h-screen w-72 border-r border-slate-700/60 bg-slate-900/80 p-6 lg:block">
+            <aside className="sticky top-4 mx-4 my-4 hidden h-[calc(100vh-2rem)] w-72 rounded-3xl border border-white/10 bg-[#0F172A]/70 p-6 shadow-[0_0_60px_rgba(139,92,246,0.1)] backdrop-blur-xl lg:block">
                 {navContent}
             </aside>
 
@@ -69,7 +70,7 @@ function Sidebar({ mobileOpen = false, onClose = () => { } }) {
             />
 
             <aside
-                className={`fixed left-0 top-0 z-50 h-screen w-72 border-r border-slate-700/60 bg-slate-900 p-6 transition-transform duration-200 lg:hidden ${mobileOpen ? 'translate-x-0' : '-translate-x-full'}`}
+                className={`fixed left-4 top-4 z-50 h-[calc(100vh-2rem)] w-72 rounded-3xl border border-white/10 bg-[#0F172A]/70 p-6 shadow-[0_0_60px_rgba(139,92,246,0.1)] backdrop-blur-xl transition-transform duration-300 lg:hidden ${mobileOpen ? 'translate-x-0' : '-translate-x-[120%]'}`}
             >
                 {navContent}
             </aside>

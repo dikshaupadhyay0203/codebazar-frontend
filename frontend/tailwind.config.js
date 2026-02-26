@@ -4,11 +4,14 @@ export default {
     theme: {
         extend: {
             colors: {
-                primary: '#6366F1',
-                secondary: '#22C55E',
-                appbg: '#0F172A',
-                card: '#1E293B',
-                textmain: '#E2E8F0'
+                primary: '#8B5CF6',
+                secondary: '#94A3B8',
+                appbg: '#020617',
+                sidebar: '#0F172A',
+                card: '#1F2937',
+                border: '#334155',
+                textmain: '#E2E8F0',
+                textmuted: '#94A3B8'
             },
             boxShadow: {
                 glass: '0 10px 30px rgba(0,0,0,0.35)'

@@ -5,10 +5,10 @@ function Navbar() {
     const { user, isAuthenticated, logout } = useAuth();
 
     return (
-        <header style={{ background: '#111827', borderBottom: '1px solid #1f2937' }}>
-            <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '1rem 0' }}>
-                <Link to="/dashboard" style={{ fontWeight: 700, color: '#10B981' }}>CodeBazaar</Link>
-                <nav style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
+        <header className="sticky top-0 z-40 border-b border-white/10 bg-white/5 backdrop-blur-xl">
+            <div className="container flex items-center justify-between py-4">
+                <Link to="/dashboard" className="font-bold text-primary">CodeBazaar</Link>
+                <nav className="flex items-center gap-3 text-sm text-textmain">
                     <Link to="/dashboard">Dashboard</Link>
                     {isAuthenticated && <Link to="/my-purchases">My Purchases</Link>}
                     {isAuthenticated && <Link to="/upload">Upload</Link>}

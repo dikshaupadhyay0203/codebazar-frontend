@@ -71,18 +71,18 @@ function BuyProject() {
 
     return (
         <PageTransition>
-            <div className="mx-auto max-w-2xl rounded-2xl border border-slate-700 bg-card p-6">
+            <div className="card mx-auto max-w-2xl p-6">
                 <h2 className="text-2xl font-extrabold">Buy Project</h2>
                 <p className="mt-2 text-slate-300">Complete secure payment to unlock project download.</p>
 
-                <div className="mt-5 rounded-xl border border-slate-700 bg-slate-900 p-4">
-                    <p className="text-sm text-slate-400">Project</p>
+                <div className="mt-5 rounded-xl border border-white/10 bg-white/5 p-4">
+                    <p className="text-sm text-textmuted">Project</p>
                     <p className="text-lg font-semibold">{project.title}</p>
-                    <p className="mt-2 text-sm text-slate-400">Amount</p>
-                    <p className="text-2xl font-extrabold text-secondary">₹{project.price}</p>
+                    <p className="mt-2 text-sm text-textmuted">Amount</p>
+                    <p className="text-2xl font-extrabold text-primary">₹{project.price}</p>
                 </div>
 
-                <button className="mt-5 rounded-xl bg-primary px-5 py-3 font-semibold text-white transition hover:bg-indigo-500" disabled={processing} onClick={handleBuy}>
+                <button className="btn-accent mt-5 px-5 py-3" disabled={processing} onClick={handleBuy}>
                     {processing ? 'Processing...' : 'Pay with Razorpay'}
                 </button>
             </div>

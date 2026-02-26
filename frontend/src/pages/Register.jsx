@@ -51,7 +51,12 @@ function Register() {
 
     return (
         <PageTransition>
-            <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-gradient-to-br from-indigo-700/30 via-appbg to-emerald-600/20 px-4">
+            <div className="relative isolate flex min-h-screen items-center justify-center overflow-hidden bg-appbg px-4 before:pointer-events-none before:absolute before:inset-0 before:bg-[url('/noise.png')] before:opacity-[0.04] before:content-['']">
+                <div className="pointer-events-none absolute inset-0 z-[-1]">
+                    <div className="absolute left-[-100px] top-[-100px] h-[500px] w-[500px] rounded-full bg-purple-600/20 blur-[120px] animate-pulse" />
+                    <div className="absolute bottom-[-100px] right-[-100px] h-[600px] w-[600px] rounded-full bg-indigo-600/20 blur-[150px] animate-pulse delay-2000 [animation-delay:2s]" />
+                    <div className="absolute left-[30%] top-[40%] h-[400px] w-[400px] rounded-full bg-fuchsia-600/20 blur-[140px] animate-pulse delay-1000 [animation-delay:1s]" />
+                </div>
                 <motion.form
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}

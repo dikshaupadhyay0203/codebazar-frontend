@@ -39,10 +39,10 @@ function MyPurchases() {
         <PageTransition>
             <div>
                 <h2 className="text-2xl font-extrabold">My Purchases</h2>
-                {purchases.length === 0 ? <p className="mt-3 text-slate-400">No purchases yet.</p> : null}
+                {purchases.length === 0 ? <p className="mt-3 text-textmuted">No purchases yet.</p> : null}
                 <div className="mt-4 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
                     {purchases.map((purchase) => (
-                        <div key={purchase._id} className="rounded-2xl border border-slate-700 bg-card p-4">
+                        <div key={purchase._id} className="card card-hover p-4">
                             <h3 className="text-lg font-semibold">{purchase.projectId?.title}</h3>
                             <p className="mt-2 text-sm text-slate-300">Paid: ₹{purchase.amount}</p>
                             {assetsByProject[purchase.projectId?._id]?.projectLink ? (
@@ -50,19 +50,19 @@ function MyPurchases() {
                                     href={assetsByProject[purchase.projectId?._id].projectLink}
                                     target="_blank"
                                     rel="noreferrer"
-                                    className="mt-3 inline-block text-sm font-semibold text-secondary hover:underline"
+                                    className="mt-3 inline-block text-sm font-semibold text-primary hover:underline"
                                 >
                                     Open Project Link
                                 </a>
                             ) : (
                                 <button
-                                    className="mt-3 block rounded-lg border border-slate-600 px-3 py-1.5 text-sm font-semibold text-slate-200 transition hover:border-primary hover:text-primary"
+                                    className="btn-muted mt-3 block text-sm"
                                     onClick={() => handleUnlockAssets(purchase.projectId?._id)}
                                 >
                                     Unlock Project Link
                                 </button>
                             )}
-                            <button className="mt-4 rounded-xl bg-primary px-4 py-2 font-semibold text-white transition hover:bg-indigo-500" onClick={() => handleDownload(purchase.projectId?._id, purchase.projectId?.title)}>
+                            <button className="btn-accent mt-4" onClick={() => handleDownload(purchase.projectId?._id, purchase.projectId?.title)}>
                                 Download
                             </button>
                         </div>

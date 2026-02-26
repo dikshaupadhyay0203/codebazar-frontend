@@ -34,9 +34,9 @@ function UploadProject() {
 
     return (
         <PageTransition>
-            <form className="mx-auto max-w-4xl rounded-2xl border border-slate-700 bg-card p-6" onSubmit={onSubmit}>
+            <form className="card mx-auto max-w-4xl p-6" onSubmit={onSubmit}>
                 <h2 className="text-2xl font-extrabold">Upload Project</h2>
-                <p className="mt-1 text-sm text-slate-400">Upload your project package, images, and optional project link.</p>
+                <p className="mt-1 text-sm text-textmuted">Upload your project package, images, and optional project link.</p>
 
                 <div className="mt-5 grid gap-3 md:grid-cols-2">
                     <input className="input md:col-span-2" placeholder="Title" value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} required />
@@ -46,17 +46,17 @@ function UploadProject() {
                     <input className="input md:col-span-2" placeholder="Tech Stack (comma separated)" value={form.techStack} onChange={(e) => setForm({ ...form, techStack: e.target.value })} />
                     <input className="input md:col-span-2" placeholder="Project Link (optional)" value={form.projectLink} onChange={(e) => setForm({ ...form, projectLink: e.target.value })} />
 
-                    <div className="rounded-xl border border-dashed border-slate-600 p-4">
+                    <div className="rounded-xl border border-dashed border-white/20 bg-white/5 p-4 backdrop-blur-lg">
                         <p className="mb-2 text-sm font-semibold">Project ZIP</p>
                         <input className="input" type="file" accept=".zip" onChange={(e) => setForm({ ...form, projectZip: e.target.files?.[0] || null })} required />
                     </div>
-                    <div className="rounded-xl border border-dashed border-slate-600 p-4 md:col-span-2">
+                    <div className="rounded-xl border border-dashed border-white/20 bg-white/5 p-4 backdrop-blur-lg md:col-span-2">
                         <p className="mb-2 text-sm font-semibold">Additional Images (optional)</p>
                         <input className="input" type="file" accept="image/*" multiple onChange={(e) => setForm({ ...form, projectImages: Array.from(e.target.files || []) })} />
                     </div>
                 </div>
 
-                <button className="mt-5 rounded-xl bg-primary px-5 py-2.5 font-semibold text-white transition hover:bg-indigo-500" disabled={loading}>
+                <button className="btn-accent mt-5 px-5 py-2.5" disabled={loading}>
                     {loading ? 'Uploading...' : 'Upload Project'}
                 </button>
             </form>

@@ -46,20 +46,22 @@ function Dashboard() {
     return (
         <PageTransition>
             <div>
-                <h1 className="text-3xl font-extrabold">Dashboard</h1>
-                <p className="mt-1 text-slate-400">Welcome back, {user?.name}. Here is your marketplace overview.</p>
+                <h1 className="text-3xl font-extrabold bg-gradient-to-r from-purple-400 to-indigo-400 bg-clip-text text-transparent">Dashboard</h1>
+                <p className="mt-1 text-textmuted">Welcome back, {user?.name}. Here is your marketplace overview.</p>
 
                 <div className="mt-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-2">
                     {[
-                        { title: 'Total Projects', value: totalProjects },
-                        { title: 'Active Creators', value: activeCreators }
+                        { title: 'Total Projects', value: totalProjects, icon: '📦' },
+                        { title: 'Active Creators', value: activeCreators, icon: '👥' }
                     ].map((card) => (
                         <motion.div
                             key={card.title}
-                            whileHover={{ y: -4 }}
-                            className="rounded-2xl border border-slate-700 bg-card p-5"
+                            className="card card-hover p-5"
                         >
-                            <p className="text-sm text-slate-400">{card.title}</p>
+                            <div className="mb-4 inline-flex items-center justify-center rounded-full bg-purple-500/10 p-3 text-purple-400">
+                                <span aria-hidden>{card.icon}</span>
+                            </div>
+                            <p className="text-sm text-textmuted">{card.title}</p>
                             <p className="mt-3 text-3xl font-extrabold">{card.value}</p>
                         </motion.div>
                     ))}
@@ -67,13 +69,13 @@ function Dashboard() {
 
                 {(user?.role === 'creator' || user?.role === 'admin') && stats ? (
                     <div className="mt-4 grid gap-4 sm:grid-cols-3">
-                        <div className="rounded-2xl border border-slate-700 bg-card p-4"><p className="text-sm text-slate-400">Creator Uploads</p><p className="text-2xl font-bold">{stats.totalUploads}</p></div>
-                        <div className="rounded-2xl border border-slate-700 bg-card p-4"><p className="text-sm text-slate-400">Total Sales</p><p className="text-2xl font-bold">{stats.totalSales}</p></div>
-                        <div className="rounded-2xl border border-slate-700 bg-card p-4"><p className="text-sm text-slate-400">Revenue</p><p className="text-2xl font-bold">₹{stats.totalRevenue}</p></div>
+                        <div className="card card-hover p-4"><div className="mb-3 inline-flex rounded-full bg-purple-500/10 p-3 text-purple-400">⬆️</div><p className="text-sm text-textmuted">Creator Uploads</p><p className="text-2xl font-bold">{stats.totalUploads}</p></div>
+                        <div className="card card-hover p-4"><div className="mb-3 inline-flex rounded-full bg-purple-500/10 p-3 text-purple-400">🛒</div><p className="text-sm text-textmuted">Total Sales</p><p className="text-2xl font-bold">{stats.totalSales}</p></div>
+                        <div className="card card-hover p-4"><div className="mb-3 inline-flex rounded-full bg-purple-500/10 p-3 text-purple-400">₹</div><p className="text-sm text-textmuted">Revenue</p><p className="text-2xl font-bold">₹{stats.totalRevenue}</p></div>
                     </div>
                 ) : null}
 
-                <div className="mt-6 rounded-2xl border border-slate-700 bg-card p-4">
+                <div className="card mt-6 p-4">
                     <h3 className="mb-3 text-lg font-semibold">Search & Filter</h3>
                     <div className="grid gap-3 md:grid-cols-3">
                         <input className="input" placeholder="Search title/description" value={filters.q} onChange={(e) => setFilters({ ...filters, q: e.target.value })} />
@@ -81,7 +83,7 @@ function Dashboard() {
                         <input className="input" placeholder="Category" value={filters.category} onChange={(e) => setFilters({ ...filters, category: e.target.value })} />
                         <input className="input" type="number" placeholder="Min Price" value={filters.minPrice} onChange={(e) => setFilters({ ...filters, minPrice: e.target.value })} />
                         <input className="input" type="number" placeholder="Max Price" value={filters.maxPrice} onChange={(e) => setFilters({ ...filters, maxPrice: e.target.value })} />
-                        <button className="btn-accent" onClick={() => setAppliedFilters(filters)}>Apply Filters</button>
+                        <button className="btn-accent hover:scale-110 hover:shadow-[0_0_30px_rgba(139,92,246,0.6)] active:scale-95 transition-all duration-300" onClick={() => setAppliedFilters(filters)}>Apply Filters</button>
                     </div>
                 </div>
 

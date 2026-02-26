@@ -67,7 +67,7 @@ function ProjectDetails() {
     return (
         <PageTransition>
             <div className="grid gap-4 xl:grid-cols-3">
-                <section className="rounded-2xl border border-slate-700 bg-card p-6 xl:col-span-2">
+                <section className="card xl:col-span-2 p-6">
                     <h2 className="text-2xl font-extrabold">{data.project.title}</h2>
                     <p className="mt-3 text-slate-300">{data.project.description}</p>
 
@@ -84,29 +84,29 @@ function ProjectDetails() {
                     ) : null}
 
                     <div className="mt-5 grid gap-2 text-sm text-slate-300 md:grid-cols-2">
-                        <p><span className="text-slate-400">Category:</span> {data.project.category}</p>
-                        <p><span className="text-slate-400">Tech:</span> {data.project.techStack?.join(', ')}</p>
-                        <p><span className="text-slate-400">Price:</span> <span className="font-semibold text-secondary">₹{data.project.price}</span></p>
+                        <p><span className="text-textmuted">Category:</span> {data.project.category}</p>
+                        <p><span className="text-textmuted">Tech:</span> {data.project.techStack?.join(', ')}</p>
+                        <p><span className="text-textmuted">Price:</span> <span className="font-semibold text-primary">₹{data.project.price}</span></p>
                     </div>
 
-                    <p className="mt-3 rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-slate-300">
+                    <p className="mt-3 rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm text-slate-300">
                         🔒 Project link and downloadable files are available only after payment.
                     </p>
 
-                    <Link className="mt-5 inline-block rounded-xl bg-primary px-4 py-2 font-semibold text-white transition hover:bg-indigo-500" to={`/buy/${projectId}`}>
+                    <Link className="btn-accent mt-5 inline-flex" to={`/buy/${projectId}`}>
                         Buy Project
                     </Link>
                 </section>
 
-                <section className="rounded-2xl border border-slate-700 bg-card p-6">
+                <section className="card p-6">
                     <h3 className="text-xl font-semibold">Reviews</h3>
                     <div className="mt-3 max-h-72 space-y-3 overflow-y-auto pr-1">
                         {data.reviews?.length ? data.reviews.map((item) => (
-                            <div key={item._id} className="rounded-xl border border-slate-700 bg-slate-900 p-3">
-                                <p className="font-semibold">{item.userId?.name} <span className="text-secondary">{item.rating}/5</span></p>
+                            <div key={item._id} className="rounded-xl border border-white/10 bg-white/5 p-3">
+                                <p className="font-semibold">{item.userId?.name} <span className="text-primary">{item.rating}/5</span></p>
                                 <p className="mt-1 text-sm text-slate-300">{item.comment}</p>
                             </div>
-                        )) : <p className="text-sm text-slate-400">No reviews yet.</p>}
+                        )) : <p className="text-sm text-textmuted">No reviews yet.</p>}
                     </div>
 
                     {isAuthenticated ? (
