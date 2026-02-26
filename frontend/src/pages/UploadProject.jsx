@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import toast from 'react-hot-toast';
 import { uploadProject } from '../services/projectService';
+import PageTransition from '../components/PageTransition';
 
 function UploadProject() {
     const [loading, setLoading] = useState(false);
@@ -27,19 +28,33 @@ function UploadProject() {
     };
 
     return (
-        <form className="card" onSubmit={onSubmit}>
-            <h2>Upload Project</h2>
-            <div className="grid">
-                <input className="input" placeholder="Title" value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} required />
-                <textarea className="input" rows={4} placeholder="Description" value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} required />
-                <input className="input" type="number" placeholder="Price" value={form.price} onChange={(e) => setForm({ ...form, price: e.target.value })} required />
-                <input className="input" placeholder="Tech Stack (comma separated)" value={form.techStack} onChange={(e) => setForm({ ...form, techStack: e.target.value })} />
-                <input className="input" placeholder="Category" value={form.category} onChange={(e) => setForm({ ...form, category: e.target.value })} required />
-                <input className="input" type="file" accept=".zip" onChange={(e) => setForm({ ...form, projectZip: e.target.files?.[0] || null })} required />
-                <input className="input" type="file" accept="image/*" onChange={(e) => setForm({ ...form, projectImage: e.target.files?.[0] || null })} />
-                <button className="btn btn-accent" disabled={loading}>{loading ? 'Uploading...' : 'Upload Project'}</button>
-            </div>
-        </form>
+        <PageTransition>
+            <form className="mx-auto max-w-4xl rounded-2xl border border-slate-700 bg-card p-6" onSubmit={onSubmit}>
+                <h2 className="text-2xl font-extrabold">Upload Project</h2>
+                <p className="mt-1 text-sm text-slate-400">Submit your project for admin approval and listing.</p>
+
+                <div className="mt-5 grid gap-3 md:grid-cols-2">
+                    <input className="input md:col-span-2" placeholder="Title" value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} required />
+                    <textarea className="input md:col-span-2" rows={5} placeholder="Description" value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} required />
+                    <input className="input" type="number" placeholder="Price" value={form.price} onChange={(e) => setForm({ ...form, price: e.target.value })} required />
+                    <input className="input" placeholder="Category" value={form.category} onChange={(e) => setForm({ ...form, category: e.target.value })} required />
+                    <input className="input md:col-span-2" placeholder="Tech Stack (comma separated)" value={form.techStack} onChange={(e) => setForm({ ...form, techStack: e.target.value })} />
+
+                    <div className="rounded-xl border border-dashed border-slate-600 p-4">
+                        <p className="mb-2 text-sm font-semibold">Project ZIP</p>
+                        <input className="input" type="file" accept=".zip" onChange={(e) => setForm({ ...form, projectZip: e.target.files?.[0] || null })} required />
+                    </div>
+                    <div className="rounded-xl border border-dashed border-slate-600 p-4">
+                        <p className="mb-2 text-sm font-semibold">Cover Image (optional)</p>
+                        <input className="input" type="file" accept="image/*" onChange={(e) => setForm({ ...form, projectImage: e.target.files?.[0] || null })} />
+                    </div>
+                </div>
+
+                <button className="mt-5 rounded-xl bg-primary px-5 py-2.5 font-semibold text-white transition hover:bg-indigo-500" disabled={loading}>
+                    {loading ? 'Uploading...' : 'Upload Project'}
+                </button>
+            </form>
+        </PageTransition>
     );
 }
 

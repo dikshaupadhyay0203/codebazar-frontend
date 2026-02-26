@@ -1,76 +1,51 @@
-:root {
-    --primary: #111827;
-    --accent: #10b981;
-    --background: #020617;
-    --text: #e5e7eb;
-    --muted: #1f2937;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    html {
+        scroll-behavior: smooth;
+    }
+
+    body {
+        @apply bg-appbg text-textmain antialiased;
+        margin: 0;
+        font-family: Inter, Segoe UI, sans-serif;
+    }
 }
 
-* {
-    box-sizing: border-box;
+@layer components {
+    .container {
+        @apply mx-auto w-[92%] max-w-7xl;
+    }
+
+    .card {
+        @apply rounded-2xl border border-slate-700/60 bg-card p-4;
+    }
+
+    .btn {
+        @apply inline-flex items-center justify-center rounded-xl px-4 py-2 font-semibold transition;
+    }
+
+    .btn-accent {
+        @apply btn bg-primary text-white hover:bg-indigo-500;
+    }
+
+    .btn-muted {
+        @apply btn bg-slate-700 text-textmain hover:bg-slate-600;
+    }
+
+    .input {
+        @apply w-full rounded-xl border border-slate-600 bg-slate-800 px-3 py-2 text-textmain outline-none transition focus:border-primary;
+    }
+
+    .error {
+        @apply text-sm text-rose-400;
+    }
 }
 
-body {
-    margin: 0;
-    font-family: Inter, Segoe UI, sans-serif;
-    background: var(--background);
-    color: var(--text);
-}
-
-a {
-    color: var(--text);
-    text-decoration: none;
-}
-
-.container {
-    width: min(1120px, 92%);
-    margin: 0 auto;
-}
-
-.card {
-    background: var(--primary);
-    border: 1px solid #1f2937;
-    border-radius: 12px;
-    padding: 1rem;
-}
-
-.btn {
-    border: none;
-    border-radius: 10px;
-    padding: 0.65rem 1rem;
-    cursor: pointer;
-    font-weight: 600;
-}
-
-.btn-accent {
-    background: var(--accent);
-    color: #02130e;
-}
-
-.btn-muted {
-    background: var(--muted);
-    color: var(--text);
-}
-
-.input {
-    width: 100%;
-    background: #0f172a;
-    color: var(--text);
-    border: 1px solid #334155;
-    border-radius: 10px;
-    padding: 0.65rem 0.75rem;
-}
-
-.grid {
-    display: grid;
-    gap: 1rem;
-}
-
-.grid-3 {
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-}
-
-.error {
-    color: #f87171;
-    font-size: 0.875rem;
+.glass {
+    background: rgba(30, 41, 59, 0.55);
+    border: 1px solid rgba(148, 163, 184, 0.22);
+    backdrop-filter: blur(12px);
 }

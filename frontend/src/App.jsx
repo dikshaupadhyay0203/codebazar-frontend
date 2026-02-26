@@ -1,6 +1,12 @@
-import { Navigate, Route, Routes } from 'react-router-dom';
-import Navbar from './components/Navbar';
+import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
+import { AnimatePresence } from 'framer-motion';
 import ProtectedRoute from './components/ProtectedRoute';
+import DashboardLayout from './components/DashboardLayout';
+import PageTransition from './components/PageTransition';
+import FloatingChatbot from './components/FloatingChatbot';
+import HomePage from './pages/HomePage';
+import AboutPage from './pages/AboutPage';
+import ContactPage from './pages/ContactPage';
 import Register from './pages/Register';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
@@ -11,30 +17,41 @@ import ProfilePage from './pages/ProfilePage';
 import MyPurchases from './pages/MyPurchases';
 import MyUploads from './pages/MyUploads';
 import AdminPanel from './pages/AdminPanel';
-import AIAgentChat from './pages/AIAgentChat';
 
 function App() {
+    const location = useLocation();
+
     return (
         <>
-            <Navbar />
-            <div className="container" style={{ padding: '1rem 0 2rem' }}>
-                <Routes>
-                    <Route path="/" element={<Navigate to="/dashboard" replace />} />
+            <AnimatePresence mode="wait">
+                <Routes location={location} key={location.pathname}>
+                    <Route path="/" element={<HomePage />} />
+                    <Route path="/about" element={<AboutPage />} />
+                    <Route path="/contact" element={<ContactPage />} />
                     <Route path="/register" element={<Register />} />
                     <Route path="/login" element={<Login />} />
 
-                    <Route path="/dashboard" element={<Dashboard />} />
-                    <Route path="/projects/:projectId" element={<ProjectDetails />} />
-                    <Route path="/buy/:projectId" element={<ProtectedRoute><BuyProject /></ProtectedRoute>} />
+                    <Route
+                        element={
+                            <ProtectedRoute>
+                                <DashboardLayout />
+                            </ProtectedRoute>
+                        }
+                    >
+                        <Route path="/dashboard" element={<Dashboard />} />
+                        <Route path="/projects/:projectId" element={<ProjectDetails />} />
+                        <Route path="/buy/:projectId" element={<BuyProject />} />
+                        <Route path="/profile" element={<ProfilePage />} />
+                        <Route path="/my-purchases" element={<MyPurchases />} />
+                        <Route path="/my-uploads" element={<ProtectedRoute roles={['creator', 'admin']}><MyUploads /></ProtectedRoute>} />
+                        <Route path="/upload" element={<ProtectedRoute roles={['creator', 'admin']}><UploadProject /></ProtectedRoute>} />
+                        <Route path="/admin" element={<ProtectedRoute roles={['admin']}><AdminPanel /></ProtectedRoute>} />
+                    </Route>
 
-                    <Route path="/upload" element={<ProtectedRoute roles={['creator', 'admin']}><UploadProject /></ProtectedRoute>} />
-                    <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
-                    <Route path="/my-purchases" element={<ProtectedRoute><MyPurchases /></ProtectedRoute>} />
-                    <Route path="/my-uploads" element={<ProtectedRoute roles={['creator', 'admin']}><MyUploads /></ProtectedRoute>} />
-                    <Route path="/ai-agent" element={<ProtectedRoute><AIAgentChat /></ProtectedRoute>} />
-                    <Route path="/admin" element={<ProtectedRoute roles={['admin']}><AdminPanel /></ProtectedRoute>} />
+                    <Route path="*" element={<PageTransition><Navigate to="/" replace /></PageTransition>} />
                 </Routes>
-            </div>
+            </AnimatePresence>
+            <FloatingChatbot />
         </>
     );
 }

@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { buyProject, verifyPayment } from '../services/paymentService';
 import { getProjectDetails } from '../services/projectService';
+import PageTransition from '../components/PageTransition';
 
 function BuyProject() {
     const { projectId } = useParams();
@@ -66,17 +67,26 @@ function BuyProject() {
         }
     };
 
-    if (!project) return <p>Loading...</p>;
+    if (!project) return <p className="text-slate-300">Loading...</p>;
 
     return (
-        <div className="card">
-            <h2>Buy Project</h2>
-            <p>{project.title}</p>
-            <p>Amount: ₹{project.price}</p>
-            <button className="btn btn-accent" disabled={processing} onClick={handleBuy}>
-                {processing ? 'Processing...' : 'Pay with Razorpay'}
-            </button>
-        </div>
+        <PageTransition>
+            <div className="mx-auto max-w-2xl rounded-2xl border border-slate-700 bg-card p-6">
+                <h2 className="text-2xl font-extrabold">Buy Project</h2>
+                <p className="mt-2 text-slate-300">Complete secure payment to unlock project download.</p>
+
+                <div className="mt-5 rounded-xl border border-slate-700 bg-slate-900 p-4">
+                    <p className="text-sm text-slate-400">Project</p>
+                    <p className="text-lg font-semibold">{project.title}</p>
+                    <p className="mt-2 text-sm text-slate-400">Amount</p>
+                    <p className="text-2xl font-extrabold text-secondary">₹{project.price}</p>
+                </div>
+
+                <button className="mt-5 rounded-xl bg-primary px-5 py-3 font-semibold text-white transition hover:bg-indigo-500" disabled={processing} onClick={handleBuy}>
+                    {processing ? 'Processing...' : 'Pay with Razorpay'}
+                </button>
+            </div>
+        </PageTransition>
     );
 }
 

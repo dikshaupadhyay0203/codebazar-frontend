@@ -11,7 +11,6 @@ function Navbar() {
                 <nav style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
                     <Link to="/dashboard">Dashboard</Link>
                     {isAuthenticated && <Link to="/my-purchases">My Purchases</Link>}
-                    {isAuthenticated && <Link to="/ai-agent">AI Agent</Link>}
                     {isAuthenticated && (user?.role === 'creator' || user?.role === 'admin') && <Link to="/upload">Upload</Link>}
                     {isAuthenticated && (user?.role === 'creator' || user?.role === 'admin') && <Link to="/my-uploads">My Uploads</Link>}
                     {isAuthenticated && user?.role === 'admin' && <Link to="/admin">Admin</Link>}
