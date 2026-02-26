@@ -11,6 +11,7 @@ import ProfilePage from './pages/ProfilePage';
 import MyPurchases from './pages/MyPurchases';
 import MyUploads from './pages/MyUploads';
 import AdminPanel from './pages/AdminPanel';
+import AIAgentChat from './pages/AIAgentChat';
 
 function App() {
     return (
@@ -30,6 +31,7 @@ function App() {
                     <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
                     <Route path="/my-purchases" element={<ProtectedRoute><MyPurchases /></ProtectedRoute>} />
                     <Route path="/my-uploads" element={<ProtectedRoute roles={['creator', 'admin']}><MyUploads /></ProtectedRoute>} />
+                    <Route path="/ai-agent" element={<ProtectedRoute><AIAgentChat /></ProtectedRoute>} />
                     <Route path="/admin" element={<ProtectedRoute roles={['admin']}><AdminPanel /></ProtectedRoute>} />
                 </Routes>
             </div>
